@@ -1,7 +1,8 @@
 import telebot
 from telebot import types
 from telebot.types import LabeledPrice
-
+from datetime import datetime, timedelta
+from telebot.types import WebAppInfo
 bot = telebot.TeleBot('7552048882:AAGL1jOYpUIEKaASeZpffo1126PIqzET8JU')
 
 PROVIDER_TOKEN = '381764678:TEST:109939'
@@ -17,7 +18,8 @@ def heart(message):
     item3 = types.KeyboardButton('Ваши вопросы и предложения')
     markup.row(item3)
     item4 = types.KeyboardButton('Поддержать проект')
-    markup.row(item4)
+    item5 = types.KeyboardButton('Помощь и Реквизиты')
+    markup.row(item4, item5)
     bot.send_message(message.chat.id, '💫', reply_markup=markup)
     start(message)
 
@@ -54,6 +56,17 @@ def handle_text(message):
     elif message.text == 'Поддержать проект':
         bot.delete_message(message.chat.id, message.message_id)
         bot.send_message(message.chat.id, '⭐️Мы ценим каждого нашего пользователя и стремимся сделать наш проект ещё лучше.🥇\n\n' '⭐️Если вам нравится то, что мы делаем, пожалуйста, поддержите нас. Это поможет нам расти и развиваться, чтобы продолжать радовать вас новыми идеями и возможностями\n\n' 'https://yoomoney.ru/fundraise/17R0PSLH1DH.250117')
+    elif message.text == 'Помощь и Реквизиты':
+         markup = types.InlineKeyboardMarkup()
+         markup.add(types.InlineKeyboardButton(text='Реквизиты', web_app=WebAppInfo(url='https://chat.deepseek.com/a/chat/s/d418fab3-10cf-4c1a-b3e7-f3f54cc40fcc')))
+         with open('Помощь.png', 'rb') as photo:
+            bot.send_photo(message.chat.id, photo, caption='<b>Политика возврата!</b>\n'
+'- За выдачу товара ненадлежащего качества средства возвращаются на карту или кошелек клиенту.\n\n'
+'- Если клиент не доволен тем, каким образом оказываются купленные услуги, то компания попытается урегулировать данный вопрос. Либо возвращением средств, либо другой компенсацией\n\n'
+'Если у вас возник какой-либо вопрос, то мы обязательно на него ответим!\n'
+'⚙️ Связаться с поддержкой - \n'
+'https://t.me/SHUNTO1',
+parse_mode='html', reply_markup=markup)
 
 
 @bot.callback_query_handler(func=lambda call: True)
@@ -85,13 +98,24 @@ def callback_handler(call):
     elif call.data == 'Подписка Степа':
         subscribe_Stepa(call)
     elif call.data == 'Оплата1':
+         payment_check(call)
+    elif call.data == 'Переход к оплате':
          payment_1(call)
     elif call.data == 'Оплата2':
          payment_2(call)
-        
+    elif call.data == 'Отмена оплаты':
+         payment_decline(call)
+
+
+
 @bot.pre_checkout_query_handler(func=lambda query: True)
 def pre_checkout_query_handler(pre_checkout_query):
+    order_id = pre_checkout_query.id
     bot.answer_pre_checkout_query(pre_checkout_query.id, ok=True)
+
+    
+
+
 
 @bot.message_handler(content_types=['successful_payment'])
 def successful_payment(message):
@@ -191,10 +215,47 @@ def author_Petya(call):
 def subscribe_Petya(call):
         bot.delete_message(call.message.chat.id, call.message.message_id)
         markup = types.InlineKeyboardMarkup()
-        markup.add(types.InlineKeyboardButton('ЮKassa', callback_data='Оплата1'))
+        markup.add(types.InlineKeyboardButton('ROBOKASSA', callback_data='Оплата1'))
         markup.add(types.InlineKeyboardButton('Каталог авторов', callback_data='Каталог авторов'))
         bot.send_message(call.message.chat.id, 'Выберите способ оплаты:', reply_markup=markup)
 
+def payment_check(call):
+        order_id = call.message.message_id
+        
+        bot.delete_message(call.message.chat.id, call.message.message_id)
+
+        current_time = datetime.now()
+        order_time = current_time + timedelta(minutes=15)
+        order_time_str = order_time.strftime('%H:%M:%S') 
+    
+        markup = types.InlineKeyboardMarkup()
+        markup.add(types.InlineKeyboardButton('Перейти к оплате', callback_data='Переход к оплате'))
+        markup.add(types.InlineKeyboardButton('Отмена оплаты', callback_data='Отмена оплаты'))
+        bot.send_message(call.message.chat.id, 
+   
+    '➖➖➖➖➖➖➖➖➖➖➖➖➖\n'
+    '📃 <b>Товар:</b> Настройка подписки на 1м\n'
+    '💰 <b>Цена:</b> 250 ₽\n'
+    '📦 <b>Кол-во:</b> 1 шт.\n'
+    f'💡 <b>Заказ:</b> #{order_id}\n'  
+    f'🕐 <b>Время заказа:</b> {current_time.strftime("%H:%M:%S")}\n'  
+    f'🕐 <b>Итоговая сумма:</b> 250 ₽\n'
+    '💲 <b>Способ оплаты:</b> ROBOKASSA\n'
+    '➖➖➖➖➖➖➖➖➖➖➖➖➖\n'
+    'Перейдите по ссылке для оплаты\n'
+    f'⏰ <b>Время на оплату:</b> 15 минут\n'
+    f'🕜 Необходимо оплатить до {order_time.strftime("%H:%M:%S")}\n'  
+    '➖➖➖➖➖➖➖➖➖➖➖➖➖',
+    
+    parse_mode='html', reply_markup=markup)
+
+def payment_decline(call):
+    bot.delete_message(call.message.chat.id, call.message.message_id)
+    order_id = call.message.message_id -1
+    bot.send_message(call.message.chat.id, f'Заказ: #{order_id} был отменен')
+    start(call.message)
+     
+     
 
 def payment_1(call):
      description = 'Подписка на Петю'
@@ -278,6 +339,6 @@ def subscribe_Stepa(call):
      
    
  
-bot.polling(none_stop=True)
+bot.polling(none_stop=False)
         
 
