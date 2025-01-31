@@ -3,6 +3,7 @@ from telebot import types
 from telebot.types import LabeledPrice
 from datetime import datetime, timedelta
 from telebot.types import WebAppInfo
+
 bot = telebot.TeleBot('7552048882:AAGL1jOYpUIEKaASeZpffo1126PIqzET8JU')
 
 PROVIDER_TOKEN = '381764678:TEST:109939'
@@ -339,6 +340,6 @@ def subscribe_Stepa(call):
      
    
  
-bot.polling(none_stop=False)
+bot.polling(none_stop=True)
         
 
