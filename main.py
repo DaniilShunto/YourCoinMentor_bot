@@ -138,7 +138,7 @@ def author_start(call):
         markup = types.InlineKeyboardMarkup()
         markup.add(types.InlineKeyboardButton('Продолжить', callback_data='Продолжить'))
         markup.add(types.InlineKeyboardButton('Главное меню', callback_data='Главное меню'))
-        with open('Автор1.2.png', 'rb') as photo:
+        with open('Автор1.png', 'rb') as photo:
             bot.send_photo(call.message.chat.id, photo, caption=
             
             '⭐️ <b>Стать автором — это круто!\n' 'Ты получаешь подписчиков и возможность монетизировать свои знания и опыт.</b>\n\n'
@@ -164,7 +164,7 @@ def author_path(call):
         markup = types.InlineKeyboardMarkup()
         markup.add(types.InlineKeyboardButton('Поддержка', url='https://t.me/@SHUNTO1'))
         markup.add(types.InlineKeyboardButton('Главное меню', callback_data='Главное меню'))
-        with open('Автор2.1.png', 'rb') as photo:
+        with open('Автор2.png', 'rb') as photo:
             bot.send_photo(call.message.chat.id, photo, caption=
             
             '⭐️<b>Поздравляем, вы выбрали стать автором!</b>\n\n'  
