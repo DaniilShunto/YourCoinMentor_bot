@@ -210,13 +210,13 @@ def author_Petya(call):
         markup = types.InlineKeyboardMarkup()
         markup.add(types.InlineKeyboardButton('Настройка подписки на 1м |250 руб|', callback_data='Подписка Петя'))
         markup.add(types.InlineKeyboardButton('Каталог авторов', callback_data='Каталог авторов'))
-        with open('Фото Автора 1.png', 'rb') as photo:
+        with open('Автор1.png', 'rb') as photo:
             bot.edit_message_media(chat_id=call.message.chat.id, message_id=call.message.message_id, media=types.InputMediaPhoto(photo, caption="Это Петя. Торгуемые валюты -****, PNL:****\n Петя в рынке уже столько лет\n Риск профиль пети - рисковый\n oсновная стратегия - смарт мани\n Петя: расскзывает о себе привет бродяги и тд"), reply_markup=markup)
 
 def subscribe_Petya(call):
         bot.delete_message(call.message.chat.id, call.message.message_id)
         markup = types.InlineKeyboardMarkup()
-        markup.add(types.InlineKeyboardButton('ROBOKASSA', callback_data='Оплата1'))
+        markup.add(types.InlineKeyboardButton('Юkassa', callback_data='Оплата1'))
         markup.add(types.InlineKeyboardButton('Каталог авторов', callback_data='Каталог авторов'))
         bot.send_message(call.message.chat.id, 'Выберите способ оплаты:', reply_markup=markup)
 
@@ -241,7 +241,7 @@ def payment_check(call):
     f'💡 <b>Заказ:</b> #{order_id}\n'  
     f'🕐 <b>Время заказа:</b> {current_time.strftime("%H:%M:%S")}\n'  
     f'🕐 <b>Итоговая сумма:</b> 250 ₽\n'
-    '💲 <b>Способ оплаты:</b> ROBOKASSA\n'
+    '💲 <b>Способ оплаты:</b> Юkassa\n'
     '➖➖➖➖➖➖➖➖➖➖➖➖➖\n'
     'Перейдите по ссылке для оплаты\n'
     f'⏰ <b>Время на оплату:</b> 15 минут\n'
@@ -283,7 +283,7 @@ def author_Vasya(call):
         markup = types.InlineKeyboardMarkup()
         markup.add(types.InlineKeyboardButton('Настройка подписки на 1м |300 руб|', callback_data='Подписка Вася'))
         markup.add(types.InlineKeyboardButton('Каталог авторов', callback_data='Каталог авторов'))
-        with open('Фото Автора 1.png', 'rb') as photo:
+        with open('Автор1.png', 'rb') as photo:
             bot.edit_message_media(chat_id=call.message.chat.id, message_id=call.message.message_id, media=types.InputMediaPhoto(photo, caption="Это Вася. Торгуемые валюты -****, PNL:****"), reply_markup=markup)
 
 def subscribe_Vasya(call):
