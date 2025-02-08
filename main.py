@@ -7,7 +7,7 @@ from telebot.types import WebAppInfo
 bot = telebot.TeleBot('7552048882:AAGL1jOYpUIEKaASeZpffo1126PIqzET8JU')
 
 PROVIDER_TOKEN = '381764678:TEST:109939'
-CURRENCY = 'RUB'
+CURRENCY = 'XTR'
 
 
 
@@ -189,8 +189,8 @@ def back_to_main_menu(call):
 
 def authors_menu(call):
     markup = types.InlineKeyboardMarkup()
-    btn1 = types.InlineKeyboardButton('Петя', callback_data='Петя')
-    btn2 = types.InlineKeyboardButton('Вася', callback_data='Вася')
+    btn1 = types.InlineKeyboardButton('Петя(Пример)', callback_data='Петя')
+    btn2 = types.InlineKeyboardButton('Пусто...', callback_data='Вася')
     markup.row(btn1, btn2)
     btn3 = types.InlineKeyboardButton('Пусто...', callback_data='Коля')
     btn4 = types.InlineKeyboardButton('Пусто...', callback_data='Степа')
@@ -208,15 +208,15 @@ def authors_menu(call):
 
 def author_Petya(call):
         markup = types.InlineKeyboardMarkup()
-        markup.add(types.InlineKeyboardButton('Настройка подписки на 1м |250 руб|', callback_data='Подписка Петя'))
+        markup.add(types.InlineKeyboardButton('Настройка подписки на 1мес |10⭐|', callback_data='Подписка Петя'))
         markup.add(types.InlineKeyboardButton('Каталог авторов', callback_data='Каталог авторов'))
         with open('Автор1.png', 'rb') as photo:
-            bot.edit_message_media(chat_id=call.message.chat.id, message_id=call.message.message_id, media=types.InputMediaPhoto(photo, caption="Это Петя. Торгуемые валюты -****, PNL:****\n Петя в рынке уже столько лет\n Риск профиль пети - рисковый\n oсновная стратегия - смарт мани\n Петя: расскзывает о себе привет бродяги и тд"), reply_markup=markup)
+            bot.edit_message_media(chat_id=call.message.chat.id, message_id=call.message.message_id, media=types.InputMediaPhoto(photo, caption="В качестве пример для пользователей используется условный автор - 'Петя'.\n\nЭто Петя.\n Торгуемые валюты: ****, PNL: ****\n Петя в рынке уже столько лет - ****\n Риск профиль пети - ****\n oсновная стратегия - ****\n Петя: расскзывает о себе - ****"), reply_markup=markup)
 
 def subscribe_Petya(call):
         bot.delete_message(call.message.chat.id, call.message.message_id)
         markup = types.InlineKeyboardMarkup()
-        markup.add(types.InlineKeyboardButton('Юkassa', callback_data='Оплата1'))
+        markup.add(types.InlineKeyboardButton('⭐Telegram Stars', callback_data='Оплата1'))
         markup.add(types.InlineKeyboardButton('Каталог авторов', callback_data='Каталог авторов'))
         bot.send_message(call.message.chat.id, 'Выберите способ оплаты:', reply_markup=markup)
 
@@ -235,13 +235,13 @@ def payment_check(call):
         bot.send_message(call.message.chat.id, 
    
     '➖➖➖➖➖➖➖➖➖➖➖➖➖\n'
-    '📃 <b>Товар:</b> Настройка подписки на 1м\n'
-    '💰 <b>Цена:</b> 250 ₽\n'
+    '📃 <b>Товар:</b> Подписка на 1мес\n'
+    '💰 <b>Цена:</b> 10⭐\n'
     '📦 <b>Кол-во:</b> 1 шт.\n'
     f'💡 <b>Заказ:</b> #{order_id}\n'  
     f'🕐 <b>Время заказа:</b> {current_time.strftime("%H:%M:%S")}\n'  
-    f'🕐 <b>Итоговая сумма:</b> 250 ₽\n'
-    '💲 <b>Способ оплаты:</b> Юkassa\n'
+    f'🕐 <b>Итоговая сумма:</b> 10⭐\n'
+    '💲 <b>Способ оплаты:</b> Telegram Stars\n'
     '➖➖➖➖➖➖➖➖➖➖➖➖➖\n'
     'Перейдите по ссылке для оплаты\n'
     f'⏰ <b>Время на оплату:</b> 15 минут\n'
@@ -261,7 +261,7 @@ def payment_decline(call):
 def payment_1(call):
      description = 'Подписка на Петю'
      prices = [LabeledPrice(label='Подписка на канал автора "Петя" на 1 месяц.\n' 'Вы получаете доступ к контенту, который предоставляет Петя в совем канале\n\n'
-                             'Стоимость: 250 рублей', amount=250 * 100)]
+                             'Стоимость: 10⭐', amount=10)]
      bot.send_invoice(call.message.chat.id, 
                       title='Покупка подписки',
                       description=description,
@@ -281,10 +281,9 @@ def payment_1(call):
 
 def author_Vasya(call):
         markup = types.InlineKeyboardMarkup()
-        markup.add(types.InlineKeyboardButton('Настройка подписки на 1м |300 руб|', callback_data='Подписка Вася'))
         markup.add(types.InlineKeyboardButton('Каталог авторов', callback_data='Каталог авторов'))
         with open('Автор1.png', 'rb') as photo:
-            bot.edit_message_media(chat_id=call.message.chat.id, message_id=call.message.message_id, media=types.InputMediaPhoto(photo, caption="Это Вася. Торгуемые валюты -****, PNL:****"), reply_markup=markup)
+            bot.edit_message_media(chat_id=call.message.chat.id, message_id=call.message.message_id, media=types.InputMediaPhoto(photo, caption="Здесь пока ничего нет. Место автора свободно."), reply_markup=markup)
 
 def subscribe_Vasya(call):
         bot.delete_message(call.message.chat.id, call.message.message_id)
@@ -309,7 +308,7 @@ def payment_2(call):
 def author_Kolya(call):
         markup = types.InlineKeyboardMarkup()
         markup.add(types.InlineKeyboardButton('Каталог авторов', callback_data='Каталог авторов'))
-        with open('Фото Автора 1.png', 'rb') as photo:
+        with open('Автор1.png', 'rb') as photo:
             bot.edit_message_media(chat_id=call.message.chat.id, message_id=call.message.message_id, media=types.InputMediaPhoto(photo, caption="Здесь пока ничего нет. Место автора свободно."), reply_markup=markup)
 
 
@@ -323,7 +322,7 @@ def subscribe_Kolya(call):
 def author_Stepa(call):
         markup = types.InlineKeyboardMarkup()
         markup.add(types.InlineKeyboardButton('Каталог авторов', callback_data='Каталог авторов'))
-        with open('Фото Автора 1.png', 'rb') as photo:
+        with open('Автор1.png', 'rb') as photo:
             bot.edit_message_media(chat_id=call.message.chat.id, message_id=call.message.message_id, media=types.InputMediaPhoto(photo, caption="Здесь пока ничего нет. Место автора свободно."), reply_markup=markup)
 
 def subscribe_Stepa(call):
